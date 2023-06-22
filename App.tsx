@@ -5,6 +5,7 @@ import Favorites from './components/Favorites';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import MovieTrailers from './components/MovieTrailers';
 
 const Stack = createNativeStackNavigator();
 export default function App(): JSX.Element {
@@ -26,6 +27,10 @@ export default function App(): JSX.Element {
             name="Favorites"
             component={Favorites}
           />
+          <Stack.Screen
+            name="MovieTrailers"
+            component={MovieTrailers}
+            />
        </Stack.Navigator>
     </NavigationContainer>
   );

@@ -173,7 +173,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       }
     })
     const translateX =  useSharedValue<number>(0)
-    const rStyle = useAnimatedStyle(()=>{
+    const xAnimatedStyle = useAnimatedStyle(()=>{
       return{
         transform:[{
           translateX: translateX.value 
@@ -182,7 +182,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
     })
 
     const translateY = useSharedValue<number>(0)
-    const uStyle = useAnimatedStyle(()=>{
+    const yAnimatedStyle = useAnimatedStyle(()=>{
       return{
         transform:[
           {
@@ -192,7 +192,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       }
     })
 
-    const swipeGestureHandler = useAnimatedGestureHandler({
+    const xGestureHandler = useAnimatedGestureHandler({
       onStart:(e)=>{
         console.log(e.translationX)
         console.log("Start")
@@ -205,13 +205,13 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       },
       onEnd:(e)=>{
 
-        if(e.translationX>20){
+        if(e.translationX>100){
           console.log("right")
           translateX.value = withSpring(0)
           runOnJS(handleSwipeRight)();
           
          
-        }else if (e.translationX<20){
+        }else if (e.translationX<-100){
           console.log("left")
           translateX.value = withSpring(0)
           runOnJS(handleSwipeLeft)();
@@ -220,8 +220,11 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
         console.log("end")
       }
     })
-
-    const upGestureHandler = useAnimatedGestureHandler({
+    const handleNavigation = function (navigation:NavigationProp<any>){
+      navigation.navigate('MovieTrailers',{id:movieData?.id})
+      
+    }
+    const yGestureHandler = useAnimatedGestureHandler({
       onStart:(e)=>{
         console.log(e.translationY)
         console.log("Start")
@@ -234,21 +237,20 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       },
       onEnd:(e)=>{
         console.log(e.translationY)
-       
-         
         if (e.translationY<0){
           console.log("up")
-          translateY.value = withSpring(0)
-          //runOnJS(handleSwipeLeft)();
+          translateY.value = withSpring(0,{overshootClamping:true})
+          runOnJS(handleNavigation)(navigation)
+        }else{
+          translateY.value = withSpring(0,{overshootClamping:true})
         }
+        
       
       }
     })
    
-   
     
   
-    
     return (
       <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={[styles.container]}>
@@ -258,7 +260,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
             console.log('favorited:', favorited);
 
             console.log('presssed', favorited.map((movie)=>movie?.title))
-            navigation.navigate('Favorites',{favorites:favorited} )
+            navigation.navigate('Favorites',{favorites:favorited})
           }
             } title="Favorites"/>
         </View>
@@ -266,22 +268,34 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       </View>
       <TapGestureHandler numberOfTaps={1} onActivated={handlePress}>
         <Animated.View style={[styles.front,fStyle]} >
-          <PanGestureHandler onGestureEvent={swipeGestureHandler}>
-            <Animated.Image style={[styles.poster,rStyle,uStyle]}source={{ uri: imageLink + movieData?.poster_path }} ></Animated.Image>
+          <PanGestureHandler onGestureEvent={xGestureHandler}>
+            <Animated.Image style={[styles.poster,xAnimatedStyle,yAnimatedStyle]}source={{ uri: imageLink + movieData?.poster_path }} ></Animated.Image>
           </PanGestureHandler>
         </Animated.View>
       </TapGestureHandler> 
 
       <TapGestureHandler numberOfTaps={1} onActivated={handlePress}>
-        <Animated.View style={[styles.back,bStyle,uStyle]} >
-          <PanGestureHandler onGestureEvent={upGestureHandler} >
-          <Animated.View style={[styles.hitbox]} >
-            <Text style={{padding:20}}>{movieData?.title}</Text>
-          </Animated.View>
+        <Animated.View style={[styles.back,bStyle,yAnimatedStyle]} >
+          <PanGestureHandler onGestureEvent={yGestureHandler} >
+            <Animated.View style={[styles.hitbox]} >
+              <Text style={{padding:20}}>{movieData?.title}</Text>
+              <Text style={{padding:20}}>{movieData?.overview}</Text>
+            </Animated.View>
           </PanGestureHandler>
         </Animated.View>
       </TapGestureHandler> 
-  
+
+        {/* <TapGestureHandler numberOfTaps={1} onActivated={handlePress}>
+            <Animated.View style={[styles.back,bStyle]} >
+              <PanGestureHandler onGestureEvent={xGestureHandler}>
+              <Animated.View style={[styles.hitbox]} >
+              <Text style={{padding:20}}>{movieData?.title}</Text>
+              <Text style={{padding:20}}>{movieData?.overview}</Text>
+              </Animated.View>
+              </PanGestureHandler>
+            </Animated.View>
+          </TapGestureHandler>  */}
+      
       <View style={{flex: 1,flexDirection:"row",justifyContent:"space-evenly",paddingBottom:25}}>
           <View style={styles.circle}>
             <FontAwesomeIcon  icon={faX} size={32} color="#ec5288" />
