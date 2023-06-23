@@ -136,14 +136,36 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
     }, [favorited]);
 
     const handleSwipeRight = () => {
-        setCurrentIndex(currentIndex+1);
-        if (movieData!= null){
-          setFavorites([...favorited,movieData])
+     
+        setCurrentIndex(currentIndex + 1);
+        if (movieData != null) {
+          setFavorites([...favorited, movieData]);
         }
+      
     };
-
+    
     const handleSwipeLeft = () => {
-        setCurrentIndex(currentIndex+1);
+     
+        setCurrentIndex(currentIndex + 1);
+      
+    };
+    
+
+    const handleSwipe =(translationX : number)=>{
+      if(translationX>100){
+        console.log("right")
+        translateX.value = withSpring(0)
+        runOnJS(handleSwipeRight)();
+        
+      }else if (translationX<-100){
+        console.log("left")
+        translateX.value = withSpring(0)
+        runOnJS(handleSwipeLeft)();
+        
+      }
+      translateX.value = withSpring(0)
+      console.log("end")
+      
     }
     const handlePress = ()=>{
       console.log("pressed")
@@ -151,7 +173,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
     }
     
     const spin = useSharedValue<number>(0)
-    const fStyle = useAnimatedStyle(()=>{
+    const frontSpinAnimation = useAnimatedStyle(()=>{
       const spinVal = interpolate(spin.value,[0,1],[0,180])
       return{
         transform:[
@@ -162,7 +184,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       }
     })
 
-    const bStyle = useAnimatedStyle(()=>{
+    const backSpinAnimation = useAnimatedStyle(()=>{
       const spinVal = interpolate(spin.value,[0,1],[180,360])
       return{
         transform:[
@@ -173,7 +195,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       }
     })
     const translateX =  useSharedValue<number>(0)
-    const xAnimatedStyle = useAnimatedStyle(()=>{
+    const horizontalSwipeAnimation = useAnimatedStyle(()=>{
       return{
         transform:[{
           translateX: translateX.value 
@@ -182,7 +204,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
     })
 
     const translateY = useSharedValue<number>(0)
-    const yAnimatedStyle = useAnimatedStyle(()=>{
+    const verticalSwipeAnimation = useAnimatedStyle(()=>{
       return{
         transform:[
           {
@@ -204,20 +226,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
         console.log("active")
       },
       onEnd:(e)=>{
-
-        if(e.translationX>100){
-          console.log("right")
-          translateX.value = withSpring(0)
-          runOnJS(handleSwipeRight)();
-          
-         
-        }else if (e.translationX<-100){
-          console.log("left")
-          translateX.value = withSpring(0)
-          runOnJS(handleSwipeLeft)();
-        }
-        translateX.value = withSpring(0)
-        console.log("end")
+        runOnJS(handleSwipe)(e.translationX)
       }
     })
     const handleNavigation = function (navigation:NavigationProp<any>){
@@ -267,15 +276,15 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
         
       </View>
       <TapGestureHandler numberOfTaps={1} onActivated={handlePress}>
-        <Animated.View style={[styles.front,fStyle]} >
+        <Animated.View style={[styles.front,frontSpinAnimation]} >
           <PanGestureHandler onGestureEvent={xGestureHandler}>
-            <Animated.Image style={[styles.poster,xAnimatedStyle,yAnimatedStyle]}source={{ uri: imageLink + movieData?.poster_path }} ></Animated.Image>
+            <Animated.Image style={[styles.poster,horizontalSwipeAnimation,verticalSwipeAnimation]}source={{ uri: imageLink + movieData?.poster_path }} ></Animated.Image>
           </PanGestureHandler>
         </Animated.View>
       </TapGestureHandler> 
 
       <TapGestureHandler numberOfTaps={1} onActivated={handlePress}>
-        <Animated.View style={[styles.back,bStyle,yAnimatedStyle]} >
+        <Animated.View style={[styles.back,backSpinAnimation,verticalSwipeAnimation]} >
           <PanGestureHandler onGestureEvent={yGestureHandler} >
             <Animated.View style={[styles.hitbox]} >
               <Text style={{padding:20}}>{movieData?.title}</Text>
@@ -285,16 +294,6 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
         </Animated.View>
       </TapGestureHandler> 
 
-        {/* <TapGestureHandler numberOfTaps={1} onActivated={handlePress}>
-            <Animated.View style={[styles.back,bStyle]} >
-              <PanGestureHandler onGestureEvent={xGestureHandler}>
-              <Animated.View style={[styles.hitbox]} >
-              <Text style={{padding:20}}>{movieData?.title}</Text>
-              <Text style={{padding:20}}>{movieData?.overview}</Text>
-              </Animated.View>
-              </PanGestureHandler>
-            </Animated.View>
-          </TapGestureHandler>  */}
       
       <View style={{flex: 1,flexDirection:"row",justifyContent:"space-evenly",paddingBottom:25}}>
           <View style={styles.circle}>
