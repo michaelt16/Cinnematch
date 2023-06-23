@@ -1,5 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import { View, Text, StyleSheet,Image, Dimensions } from 'react-native';
+ import { View, Text, StyleSheet,Image, Dimensions, StatusBar} from 'react-native';
+ import { SafeAreaView } from 'react-native-safe-area-context';
 import Card from "./components/Card"
 import Favorites from './components/Favorites';
 
@@ -10,7 +10,11 @@ import MovieTrailers from './components/MovieTrailers';
 const Stack = createNativeStackNavigator();
 export default function App(): JSX.Element {
   return (
+    
     <NavigationContainer>
+      
+        
+      
        <Stack.Navigator  
           screenOptions={{
               headerShown: false,

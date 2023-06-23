@@ -1,4 +1,4 @@
-import { Dimensions,View,Text,Image, StyleSheet, Button, Pressable } from "react-native";
+import { Dimensions,View,Text,Image, StyleSheet, Button, Pressable, StatusBar } from "react-native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faX, faHeart } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import {API_KEY} from "@env"
 import axios from "axios";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationProp } from '@react-navigation/native';
+
 const {width,height} = Dimensions.get("window")
 const φ = (1 + Math.sqrt(5)) / 2;
 const deltaX = width / 2;
@@ -136,7 +137,6 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
     }, [favorited]);
 
     const handleSwipeRight = () => {
-     
         setCurrentIndex(currentIndex + 1);
         if (movieData != null) {
           setFavorites([...favorited, movieData]);
@@ -145,9 +145,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
     };
     
     const handleSwipeLeft = () => {
-     
         setCurrentIndex(currentIndex + 1);
-      
     };
     
 
@@ -246,7 +244,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       },
       onEnd:(e)=>{
         console.log(e.translationY)
-        if (e.translationY<0){
+        if (e.translationY<-100){
           console.log("up")
           translateY.value = withSpring(0,{overshootClamping:true})
           runOnJS(handleNavigation)(navigation)
@@ -262,6 +260,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
   
     return (
       <GestureHandlerRootView style={{ flex: 1 }}>
+        
       <View style={[styles.container]}>
       <View style={{flex: 1}}>
         <View style={styles.button}>
@@ -270,8 +269,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
 
             console.log('presssed', favorited.map((movie)=>movie?.title))
             navigation.navigate('Favorites',{favorites:favorited})
-          }
-            } title="Favorites"/>
+          }} title="Favorites" color="#4d5d76"/>
         </View>
         
       </View>
@@ -287,8 +285,9 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
         <Animated.View style={[styles.back,backSpinAnimation,verticalSwipeAnimation]} >
           <PanGestureHandler onGestureEvent={yGestureHandler} >
             <Animated.View style={[styles.hitbox]} >
-              <Text style={{padding:20}}>{movieData?.title}</Text>
-              <Text style={{padding:20}}>{movieData?.overview}</Text>
+            <Animated.Image style={[styles.poster,{opacity:0.2}]}source={{ uri: imageLink + movieData?.poster_path }} ></Animated.Image>
+              <Text style={{padding:20,position:"absolute",color:"white",fontSize:20, fontWeight:"bold"}}>{movieData?.title}</Text>
+              <Text style={{padding:20,paddingTop:80,position:"absolute",color:"white"}}>{movieData?.overview}</Text>
             </Animated.View>
           </PanGestureHandler>
         </Animated.View>
@@ -310,7 +309,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#fbfaff",
+      backgroundColor: "#262b3f",
     },
     poster:{
       width:w,
@@ -325,7 +324,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       padding: 12,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "white",
+      backgroundColor: "#4d5d76",
       shadowColor: "gray",
       shadowOffset: { width: 1, height: 1 }
     },
@@ -333,17 +332,21 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       position:"absolute",
       width:w,
       height:h,
-      //backgroundColor:"red"
+      backgroundColor: '#1d1d29',
+      borderRadius:20,
+      
     },
     button:{
     marginTop:40,
     width:100,
-    height:40
+    height:40,
+    color:"red"
     },
     front:{
       flex: 8,
       justifyContent:"center",
-      alignItems:"center"
+      alignItems:"center",
+      
     },
     back:{
       position:"absolute",
