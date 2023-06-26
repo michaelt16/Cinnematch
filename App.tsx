@@ -1,11 +1,12 @@
  import { View, Text, StyleSheet,Image, Dimensions, StatusBar} from 'react-native';
  import { SafeAreaView } from 'react-native-safe-area-context';
-import Card from "./components/Card"
-import Favorites from './components/Favorites';
+import Card from "./screens/Card"
+import Favorites from './screens/Favorites';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import MovieTrailers from './components/MovieTrailers';
+import MovieTrailers from './screens/MovieTrailers';
+import ChatScreen from './screens/ChatScreen';
 
 const Stack = createNativeStackNavigator();
 export default function App(): JSX.Element {
@@ -35,6 +36,13 @@ export default function App(): JSX.Element {
             name="MovieTrailers"
             component={MovieTrailers}
             />
+
+          <Stack.Screen
+            name="ChatScreen"
+            component={ChatScreen}
+          />
+
+         
        </Stack.Navigator>
     </NavigationContainer>
   );
