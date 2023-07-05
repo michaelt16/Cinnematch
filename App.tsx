@@ -7,6 +7,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MovieTrailers from './screens/MovieTrailers';
 import ChatScreen from './screens/ChatScreen';
+import IconPickerScreen from './screens/IconPickerScreen';
+import RoomCreation from './screens/RoomCreation';
+import Customize from './screens/Customize';
 
 const Stack = createNativeStackNavigator();
 export default function App(): JSX.Element {
@@ -22,11 +25,22 @@ export default function App(): JSX.Element {
               header: () => null,
               contentStyle: { backgroundColor: 'white' },
             }}>
-          
+              
+            <Stack.Screen
+            name="IconPickerScreen"
+            component={IconPickerScreen}
+          />
+          <Stack.Screen
+            name="Customize"
+            component={Customize}
+          />
+           <Stack.Screen
+            name="RoomCreation"
+            component={RoomCreation}
+          />
             <Stack.Screen
             name="Card"
             component={Card}
-           
           />
           <Stack.Screen
             name="Favorites"
