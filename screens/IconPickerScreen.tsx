@@ -32,7 +32,7 @@ export default  function IconPickerScreen({navigation}: { navigation: Navigation
   const updatePos = (newPosArr: Array<number>)=>{
     console.log(posArr)
     setPosArr(newPosArr)
-    console.log()
+   
   }
   const updateAvatar = (newAvatar: string) => {
     
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 50,
-    backgroundColor: 'gray',
+    backgroundColor: '#221e1f',
     position:'relative'
   },
   pen:{

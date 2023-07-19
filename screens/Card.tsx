@@ -228,7 +228,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       }
     })
     const handleNavigation = function (navigation:NavigationProp<any>){
-      navigation.navigate('MovieTrailers',{id:movieData?.id})
+      navigation.navigate('MovieTrailers',{title:movieData?.title,id:movieData?.id})
       
     }
     const yGestureHandler = useAnimatedGestureHandler({
@@ -269,7 +269,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
 
             console.log('presssed', favorited.map((movie)=>movie?.title))
             navigation.navigate('Favorites',{favorites:favorited})
-          }} title="Favorites" color="#4d5d76"/>
+          }} title="FAVORITES" color="#2a2a2a"/>
         </View>
         
       </View>
@@ -286,8 +286,8 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
           <PanGestureHandler onGestureEvent={yGestureHandler} >
             <Animated.View style={[styles.hitbox]} >
             <Animated.Image style={[styles.poster,{opacity:0.2}]}source={{ uri: imageLink + movieData?.poster_path }} ></Animated.Image>
-              <Text style={{padding:20,position:"absolute",color:"white",fontSize:20, fontWeight:"bold"}}>{movieData?.title}</Text>
-              <Text style={{padding:20,paddingTop:80,position:"absolute",color:"white"}}>{movieData?.overview}</Text>
+              <Text style={styles.header}>{movieData?.title}</Text>
+              <Text style={styles.description}>{movieData?.overview}</Text>
             </Animated.View>
           </PanGestureHandler>
         </Animated.View>
@@ -309,12 +309,14 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#262b3f",
+      backgroundColor: "#161213",
     },
     poster:{
       width:w,
       height:h,
-      borderRadius:20
+      borderRadius:20,
+      borderColor:"#b4b4b4",
+      borderWidth:2
       
     },
     circle:{
@@ -324,9 +326,11 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       padding: 12,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "#4d5d76",
+      backgroundColor: "#2a2a2a",
       shadowColor: "gray",
-      shadowOffset: { width: 1, height: 1 }
+      shadowOffset: { width: 1, height: 1 },
+      borderColor:"#383435",
+      borderWidth:4
     },
     hitbox:{
       position:"absolute",
@@ -337,10 +341,12 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       
     },
     button:{
-    marginTop:40,
-    width:100,
-    height:40,
-    color:"red"
+      marginTop:20,
+      width:120,
+      height:40,
+      paddingLeft:30,
+      borderRadius:80,
+      
     },
     front:{
       flex: 8,
@@ -349,14 +355,21 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       
     },
     back:{
+    
       position:"absolute",
       width:w,
       height:h,
-      top:98,
+      top:83,
       left:16,
       borderRadius:20,
       padding:10,
       backfaceVisibility: "hidden",
       backgroundColor:"grey"
+    },
+    header:{
+      padding:20,position:"absolute",color:"#f0f0f0",fontSize:20, fontWeight:"bold"
+    },
+    description:{
+      padding:20,paddingTop:80,position:"absolute",color:"white"
     }
   })

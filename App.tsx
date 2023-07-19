@@ -16,8 +16,11 @@ export default function App(): JSX.Element {
   return (
     
     <NavigationContainer>
-      
-        
+       <StatusBar
+        backgroundColor="#161213"
+        barStyle="light-content"
+      />
+            
       
        <Stack.Navigator  
           screenOptions={{
@@ -26,6 +29,10 @@ export default function App(): JSX.Element {
               contentStyle: { backgroundColor: 'white' },
             }}>
               
+            <Stack.Screen
+            name="Card"
+            component={Card}
+          />  
             <Stack.Screen
             name="IconPickerScreen"
             component={IconPickerScreen}
@@ -38,10 +45,7 @@ export default function App(): JSX.Element {
             name="RoomCreation"
             component={RoomCreation}
           />
-            <Stack.Screen
-            name="Card"
-            component={Card}
-          />
+            
           <Stack.Screen
             name="Favorites"
             component={Favorites}
