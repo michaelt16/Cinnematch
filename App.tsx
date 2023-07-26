@@ -10,6 +10,8 @@ import ChatScreen from './screens/ChatScreen';
 import IconPickerScreen from './screens/IconPickerScreen';
 import RoomCreation from './screens/RoomCreation';
 import Customize from './screens/Customize';
+import NowPlaying from './screens/NowPlaying';
+import Profile from './screens/Profile';
 
 const Stack = createNativeStackNavigator();
 export default function App(): JSX.Element {
@@ -27,12 +29,22 @@ export default function App(): JSX.Element {
               headerShown: false,
               header: () => null,
               contentStyle: { backgroundColor: 'white' },
+              animation:"none"
+              
             }}>
               
             <Stack.Screen
             name="Card"
             component={Card}
-          />  
+          /> 
+            <Stack.Screen
+            name="NowPlaying"
+            component={NowPlaying}
+          /> 
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+          />
             <Stack.Screen
             name="IconPickerScreen"
             component={IconPickerScreen}

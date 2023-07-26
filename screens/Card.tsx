@@ -9,13 +9,15 @@ import {API_KEY} from "@env"
 import axios from "axios";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationProp } from '@react-navigation/native';
-
+import NavBar from "../components/NavBar";
+import MyContext from "../utils/MyContext";
 const {width,height} = Dimensions.get("window")
 const φ = (1 + Math.sqrt(5)) / 2;
 const deltaX = width / 2;
-const w = width - 32;
+const w = width - 80;
 const h = w * φ;
-const imageLink = "https://image.tmdb.org/t/p/w500/"
+const imageLink = "https://image.tmdb.org/t/p/original/"
+
 
 //  {
 //   "genres": [
@@ -115,14 +117,17 @@ interface MovieData {
   vote_count: number;
 }
 
+
 export default function Card({navigation}: { navigation: NavigationProp<any> }): JSX.Element {
     const [favorited,setFavorites]= useState<MovieData[]>([])
     const [currentIndex,setCurrentIndex]= useState(0)
     const [movieData, setMovieData] = useState<MovieData|null>();
+   
+
     useEffect(() => {
       axios
         .get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=878`)
+          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=28`)
         .then((resp) => resp.data)
         .then((data) => {
           console.log(data.results.length)
@@ -228,7 +233,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       }
     })
     const handleNavigation = function (navigation:NavigationProp<any>){
-      navigation.navigate('MovieTrailers',{title:movieData?.title,id:movieData?.id})
+      navigation.navigate('MovieTrailers',{movieData:movieData})
       
     }
     const yGestureHandler = useAnimatedGestureHandler({
@@ -262,17 +267,9 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       <GestureHandlerRootView style={{ flex: 1 }}>
         
       <View style={[styles.container]}>
-      <View style={{flex: 1}}>
-        <View style={styles.button}>
-          <Button onPress={()=>{
-            console.log('favorited:', favorited);
-
-            console.log('presssed', favorited.map((movie)=>movie?.title))
-            navigation.navigate('Favorites',{favorites:favorited})
-          }} title="FAVORITES" color="#2a2a2a"/>
+      <View style={styles.topSpace}>
+        <Text style={styles.header}>Swipe</Text>
         </View>
-        
-      </View>
       <TapGestureHandler numberOfTaps={1} onActivated={handlePress}>
         <Animated.View style={[styles.front,frontSpinAnimation]} >
           <PanGestureHandler onGestureEvent={xGestureHandler}>
@@ -286,15 +283,15 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
           <PanGestureHandler onGestureEvent={yGestureHandler} >
             <Animated.View style={[styles.hitbox]} >
             <Animated.Image style={[styles.poster,{opacity:0.2}]}source={{ uri: imageLink + movieData?.poster_path }} ></Animated.Image>
-              <Text style={styles.header}>{movieData?.title}</Text>
+              <Text style={styles.title}>{movieData?.title}</Text>
               <Text style={styles.description}>{movieData?.overview}</Text>
             </Animated.View>
           </PanGestureHandler>
         </Animated.View>
       </TapGestureHandler> 
-
       
-      <View style={{flex: 1,flexDirection:"row",justifyContent:"space-evenly",paddingBottom:25}}>
+      
+      <View style={{flex: 1,flexDirection:"row",justifyContent:"space-evenly"}}>
           <View style={styles.circle}>
             <FontAwesomeIcon  icon={faX} size={32} color="#ec5288" />
           </View>
@@ -302,6 +299,9 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
             <FontAwesomeIcon  icon={faHeart} size={32} color="#6ee3b4" />
           </View>
       </View>
+      <MyContext.Provider value={favorited}>
+          <NavBar navigation={navigation}/>
+      </MyContext.Provider>
     </View>
     </GestureHandlerRootView>
     );
@@ -311,19 +311,30 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       flex: 1,
       backgroundColor: "#161213",
     },
+    header:{
+      position:"absolute",
+      color:"#e7e7e7",
+      fontSize:30,
+      marginTop:30,
+      marginLeft:20,
+      
+    }, topSpace: {
+      padding:10,
+      flexDirection:'row',
+      alignContent:'space-between'
+      
+    },
     poster:{
       width:w,
       height:h,
       borderRadius:20,
-      borderColor:"#b4b4b4",
-      borderWidth:2
-      
+      borderColor:"#2a2a2a",
+      borderWidth:4,
     },
     circle:{
       width: 64,
       height: 64,
       borderRadius: 32,
-      padding: 12,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#2a2a2a",
@@ -336,40 +347,49 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       position:"absolute",
       width:w,
       height:h,
-      backgroundColor: '#1d1d29',
+      // backgroundColor: '#1d1d29',
       borderRadius:20,
       
     },
     button:{
-      marginTop:20,
+      marginTop:10,
       width:120,
       height:40,
       paddingLeft:30,
       borderRadius:80,
-      
     },
     front:{
-      flex: 8,
+      flex: 6,
       justifyContent:"center",
       alignItems:"center",
-      
+      marginTop:80
     },
     back:{
-    
       position:"absolute",
       width:w,
       height:h,
-      top:83,
-      left:16,
+      top:110,
+      left:40,
+      // marginTop:80,
       borderRadius:20,
       padding:10,
       backfaceVisibility: "hidden",
-      backgroundColor:"grey"
+      backgroundColor:"#1d1d29",
+      borderColor:"#2a2a2a",
+      borderWidth:4,
     },
-    header:{
-      padding:20,position:"absolute",color:"#f0f0f0",fontSize:20, fontWeight:"bold"
+    title:{
+      padding:20,
+      position:"absolute",
+      color:"#f0f0f0",
+      fontSize:20, 
+      fontWeight:"bold"
     },
     description:{
-      padding:20,paddingTop:80,position:"absolute",color:"white"
-    }
+      padding:20,
+      paddingTop:80,
+      position:"absolute",
+      color:"white"
+    },
+
   })
