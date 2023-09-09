@@ -9,8 +9,8 @@ import {API_KEY} from "@env"
 import axios from "axios";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationProp } from '@react-navigation/native';
-import NavBar from "../components/NavBar";
-import MyContext from "../utils/MyContext";
+import NavBar from "../../../components/NavBar";
+import {MyContext} from "../../../utils/MyContext";
 const {width,height} = Dimensions.get("window")
 const φ = (1 + Math.sqrt(5)) / 2;
 const deltaX = width / 2;
@@ -18,87 +18,6 @@ const w = width - 80;
 const h = w * φ;
 const imageLink = "https://image.tmdb.org/t/p/original/"
 
-
-//  {
-//   "genres": [
-//     {
-//         "id": 28,
-//         "name": "Action"
-//     },
-//     {
-//         "id": 12,
-//         "name": "Adventure"
-//     },
-//     {
-//         "id": 16,
-//         "name": "Animation"
-//     },
-//     {
-//         "id": 35,
-//         "name": "Comedy"
-//     },
-//     {
-//         "id": 80,
-//         "name": "Crime"
-//     },
-//     {
-//         "id": 99,
-//         "name": "Documentary"
-//     },
-//     {
-//         "id": 18,
-//         "name": "Drama"
-//     },
-//     {
-//         "id": 10751,
-//         "name": "Family"
-//     },
-//     {
-//         "id": 14,
-//         "name": "Fantasy"
-//     },
-//     {
-//         "id": 36,
-//         "name": "History"
-//     },
-//     {
-//         "id": 27,
-//         "name": "Horror"
-//     },
-//     {
-//         "id": 10402,
-//         "name": "Music"
-//     },
-//     {
-//         "id": 9648,
-//         "name": "Mystery"
-//     },
-//     {
-//         "id": 10749,
-//         "name": "Romance"
-//     },
-//     {
-//         "id": 878,
-//         "name": "Science Fiction"
-//     },
-//     {
-//         "id": 10770,
-//         "name": "TV Movie"
-//     },
-//     {
-//         "id": 53,
-//         "name": "Thriller"
-//     },
-//     {
-//         "id": 10752,
-//         "name": "War"
-//     },
-//     {
-//         "id": 37,
-//         "name": "Western"
-//     }
-// ]
-// }
 
 interface MovieData {
   adult: boolean;
@@ -116,18 +35,29 @@ interface MovieData {
   vote_average: number;
   vote_count: number;
 }
-
-
-export default function Card({navigation}: { navigation: NavigationProp<any> }): JSX.Element {
+interface GenreId{
+  id:number
+}
+interface MovieCards{
+  navigation: NavigationProp<any>,
+  route:{
+    params:{
+       genreId: GenreId[]
+    }
+}
+}
+export default function Card({navigation,route}: MovieCards): JSX.Element {
     const [favorited,setFavorites]= useState<MovieData[]>([])
     const [currentIndex,setCurrentIndex]= useState(0)
     const [movieData, setMovieData] = useState<MovieData|null>();
    
+    const selectedGenreId: GenreId[] = route.params.genreId
 
+    const genreIds = selectedGenreId.join(',');
     useEffect(() => {
       axios
         .get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=28`)
+          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genreIds}`)
         .then((resp) => resp.data)
         .then((data) => {
           console.log(data.results.length)
@@ -268,7 +198,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
         
       <View style={[styles.container]}>
       <View style={styles.topSpace}>
-        <Text style={styles.header}>Swipe</Text>
+        
         </View>
       <TapGestureHandler numberOfTaps={1} onActivated={handlePress}>
         <Animated.View style={[styles.front,frontSpinAnimation]} >
@@ -291,7 +221,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       </TapGestureHandler> 
       
       
-      <View style={{flex: 1,flexDirection:"row",justifyContent:"space-evenly"}}>
+      <View style={{flex:1,flexDirection:"row",justifyContent:"space-evenly"}}>
           <View style={styles.circle}>
             <FontAwesomeIcon  icon={faX} size={32} color="#ec5288" />
           </View>
@@ -299,9 +229,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
             <FontAwesomeIcon  icon={faHeart} size={32} color="#6ee3b4" />
           </View>
       </View>
-      <MyContext.Provider value={favorited}>
-          <NavBar navigation={navigation}/>
-      </MyContext.Provider>
+      
     </View>
     </GestureHandlerRootView>
     );
@@ -319,9 +247,9 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       marginLeft:20,
       
     }, topSpace: {
-      padding:10,
-      flexDirection:'row',
-      alignContent:'space-between'
+      backgroundColor:"#221e1f",
+      width:1000,
+      height:70
       
     },
     poster:{
@@ -352,7 +280,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       
     },
     button:{
-      marginTop:10,
+      
       width:120,
       height:40,
       paddingLeft:30,
@@ -362,7 +290,7 @@ export default function Card({navigation}: { navigation: NavigationProp<any> }):
       flex: 6,
       justifyContent:"center",
       alignItems:"center",
-      marginTop:80
+      
     },
     back:{
       position:"absolute",

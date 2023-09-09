@@ -18,6 +18,16 @@ interface MovieData {
   vote_count: number;
 }
 
+interface UserInfo{
+  username:string,
+  icon:string,
+}
+
 const MyContext = React.createContext<MovieData[]>([]);
 
-export default MyContext;
+const defaultValue: UserInfo = { username: 'ttt', icon: '' };
+const UserContext = React.createContext<UserInfo>(defaultValue);
+
+
+export { MyContext, UserContext };
+

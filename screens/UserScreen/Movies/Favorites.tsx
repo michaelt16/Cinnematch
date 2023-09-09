@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image,ScrollView } from 'react-native';
-import NavBar from '../components/NavBar';
+import NavBar from '../../../components/NavBar';
 import { NavigationProp } from '@react-navigation/native';
-import MyContext from '../utils/MyContext';
+import {MyContext} from '../../../utils/MyContext';
 interface MovieData {
   adult: boolean;
   backdrop_path: string;

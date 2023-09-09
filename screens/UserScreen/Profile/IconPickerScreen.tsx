@@ -6,7 +6,10 @@ import { funEmoji, lorelei } from '@dicebear/collection';
 import { SvgXml } from 'react-native-svg';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { UserContext } from '../../../utils/MyContext';
+
 export default  function IconPickerScreen({navigation}: { navigation: NavigationProp<any> }):JSX.Element {
+  
   const [username, setUsername] = useState('');
   const [posArr, setPosArr]= useState([1,1,1,1])
   const [avatar, setAvatar] = useState(createAvatar(lorelei, {
@@ -17,7 +20,7 @@ export default  function IconPickerScreen({navigation}: { navigation: Navigation
     console.log('Proceeding with username:', username);
     
     if(username!== ""){
-      navigation.navigate('RoomCreation',{username: username,icon:avatar})
+      navigation.navigate('Home',{username: username,icon:avatar})
       
     }
   };
@@ -38,10 +41,14 @@ export default  function IconPickerScreen({navigation}: { navigation: Navigation
     
     setAvatar(newAvatar)
   };
+  
   return (
+    
     <View style={styles.container}>
       <View style={styles.iconPickerContainer}>
-        <SvgXml xml={avatar} style={styles.iconCircle}/>
+        <View style={styles.iconCircle}>
+        <SvgXml xml={avatar} />
+        </View>
         <TouchableOpacity onPress={handleCustomize} style={styles.pen}>
           <FontAwesomeIcon  icon={faPen} size={32} />
         </TouchableOpacity>
@@ -56,9 +63,9 @@ export default  function IconPickerScreen({navigation}: { navigation: Navigation
 
       <TouchableOpacity style={styles.button} onPress={handleProceed}>
         <Text style={styles.buttonText}>Proceed</Text>
-        
       </TouchableOpacity>
     </View>
+    
   );
 };
 
@@ -68,6 +75,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 16,
+    backgroundColor: "#161213",
   },
   iconPickerContainer: {
     alignItems: 'center',
@@ -78,9 +86,12 @@ const styles = StyleSheet.create({
   iconCircle: {
     width: 200,
     height: 200,
+    position:'relative',
     borderRadius: 50,
-    backgroundColor: '#221e1f',
-    position:'relative'
+    backgroundColor: '#0ea5e9', 
+    overflow:"hidden",
+    borderColor:"#4e5880",
+    borderWidth:8,
   },
   pen:{
     right:8,
@@ -95,6 +106,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 28,
     marginBottom: 16,
+    backgroundColor:"white"
   },
   button: {
     backgroundColor: 'blue',

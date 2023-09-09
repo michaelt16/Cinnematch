@@ -84,8 +84,6 @@ export default function MovieTrailers({route}:TrailerProps):JSX.Element{
                 creditsArr.push(creditsRespData.cast[i])
             }
             setCreditsData(creditsArr) 
-           
-            
           });
       }, []);
       
@@ -181,8 +179,6 @@ const styles = StyleSheet.create({
         backgroundColor:"#221e1f",
         borderBottomColor:"#272727",
         borderBottomWidth:2
-        
-        
     },
     bottomArea:{
         padding:20,
@@ -214,8 +210,6 @@ const styles = StyleSheet.create({
         width:120,
         height:120,
         borderRadius:100,
-       
-        
     },
     castNameText:{
         marginTop:10,

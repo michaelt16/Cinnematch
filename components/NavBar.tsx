@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWindowMaximize, faStar, faTicket, faQrcode, faUser} from "@fortawesome/free-solid-svg-icons";
 import { TouchableOpacity } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
-import MyContext from "../utils/MyContext";
+import {MyContext,UserContext} from "../utils/MyContext";
 
 interface MovieData {
     adult: boolean;
@@ -33,9 +33,10 @@ interface MovieData {
 export default function NavBar ({ navigation }: NavBarProps): JSX.Element{
     
     const favorites = useContext(MyContext);
-
+    const user = useContext(UserContext)
     const handleBrowse = ()=>{
-        navigation.navigate("Card")
+        // navigation.navigate("Card")
+        console.log("test")
     }
 
     const handleFavorites = ()=> {
@@ -45,11 +46,13 @@ export default function NavBar ({ navigation }: NavBarProps): JSX.Element{
     const handleNowPlaying = ()=>{
         navigation.navigate('NowPlaying',{favorites:favorites})
     }
-
+    const handleHome = ()=>{
+        navigation.navigate('Home',{username:user.username,icon:user.icon})
+    }
     const handleProfile = () =>{
         navigation.navigate('Profile',{favorites:favorites})
     }
-
+    console.log("context",user)
     return(
         <View style={styles.container}>
             <TouchableOpacity onPress={handleBrowse}>
@@ -70,7 +73,7 @@ export default function NavBar ({ navigation }: NavBarProps): JSX.Element{
                 <Text style={styles.text}>Now Playing</Text>
             </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleProfile}>
+            <TouchableOpacity onPress={handleHome}>
             <View style={styles.labelContainer}>
                 <FontAwesomeIcon style={styles.iconScan} icon={faQrcode}size={25}></FontAwesomeIcon>
                 <Text style={styles.text}>Scan</Text>

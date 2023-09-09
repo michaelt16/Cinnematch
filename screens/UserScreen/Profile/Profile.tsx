@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import NavBar from '../components/NavBar';
+import NavBar from '../../../components/NavBar';
 import { NavigationProp } from '@react-navigation/native';
 import { createAvatar } from '@dicebear/core';
 import { lorelei } from '@dicebear/collection';
 import { SvgXml } from 'react-native-svg';
 import { ScrollView } from 'react-native-gesture-handler';
-import MyContext from '../utils/MyContext';
+import {MyContext} from '../../../utils/MyContext';
 interface MovieData {
     adult: boolean;
     backdrop_path: string;
@@ -49,7 +49,6 @@ export default function Profile ({ navigation ,route }: ProfileProps): JSX.Eleme
     
     if(username!== ""){
       navigation.navigate('RoomCreation',{username: username,icon:avatar})
-      
     }
   };
   
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
         width: 140,
         height: 140,
         borderRadius: 50,
-        backgroundColor: '#0ea5e9',
+        backgroundColor: '#0ea5e9', 
         overflow:"hidden",
         borderColor:"#4e5880",
         borderWidth:4,
