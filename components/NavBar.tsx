@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faWindowMaximize, faStar, faTicket, faQrcode, faUser} from "@fortawesome/free-solid-svg-icons";
 import { TouchableOpacity } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
-import {MyContext,UserContext} from "../utils/MyContext";
+import {MovieContext,useUser} from "../utils/MyContext";
 
 interface MovieData {
     adult: boolean;
@@ -32,8 +32,8 @@ interface MovieData {
 
 export default function NavBar ({ navigation }: NavBarProps): JSX.Element{
     
-    const favorites = useContext(MyContext);
-    const user = useContext(UserContext)
+    const favorites = useContext(MovieContext);
+    const user = useUser()
     const handleBrowse = ()=>{
         // navigation.navigate("Card")
         console.log("test")

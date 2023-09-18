@@ -34,17 +34,14 @@ export default function UserStack(): JSX.Element {
              animation:"none"
              
            }}>
-            
 
-          <Stack.Screen
-           name="ChatScreen"
-           component={ChatScreen}
-         />
-
-          <Stack.Screen
+          
+              <Stack.Screen
            name="IconPickerScreen"
            component={IconPickerScreen}
          />
+
+         
              <Stack.Screen
            name="Home"
            component={Home}
@@ -72,7 +69,12 @@ export default function UserStack(): JSX.Element {
            name="Profile"
            component={Profile}
          />
-         
+          <Stack.Screen
+           name="ChatScreen"
+           component={ChatScreen}
+         />
+
+        
            
          <Stack.Screen
            name="Favorites"

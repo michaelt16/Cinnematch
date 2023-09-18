@@ -1,4 +1,5 @@
-// MyContext.tsx
+// MovieContext.tsx
+
 import React from 'react';
 
 interface MovieData {
@@ -23,11 +24,18 @@ interface UserInfo{
   icon:string,
 }
 
-const MyContext = React.createContext<MovieData[]>([]);
+const MovieContext = React.createContext<MovieData[]>([]);
 
-const defaultValue: UserInfo = { username: 'ttt', icon: '' };
-const UserContext = React.createContext<UserInfo>(defaultValue);
+// Create a Context with default value undefined
+export const UserContext = React.createContext<any | undefined>(undefined);
 
 
-export { MyContext, UserContext };
+
+// Create a custom hook for easy access to the UserContext
+export function useUser() {
+  return React.useContext(UserContext);
+}
+
+
+export { MovieContext};
 

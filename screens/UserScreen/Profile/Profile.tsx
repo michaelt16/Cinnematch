@@ -6,7 +6,7 @@ import { createAvatar } from '@dicebear/core';
 import { lorelei } from '@dicebear/collection';
 import { SvgXml } from 'react-native-svg';
 import { ScrollView } from 'react-native-gesture-handler';
-import {MyContext} from '../../../utils/MyContext';
+import {MovieContext} from '../../../utils/MyContext';
 interface MovieData {
     adult: boolean;
     backdrop_path: string;
@@ -48,7 +48,7 @@ export default function Profile ({ navigation ,route }: ProfileProps): JSX.Eleme
     console.log('Proceeding with username:', username);
     
     if(username!== ""){
-      navigation.navigate('RoomCreation',{username: username,icon:avatar})
+      navigation.navigate('RoomCreation')
     }
   };
   
@@ -107,9 +107,9 @@ export default function Profile ({ navigation ,route }: ProfileProps): JSX.Eleme
                
             </View>      
             </ScrollView>    
-            <MyContext.Provider value={favorited}>
+            <MovieContext.Provider value={favorited}>
                 <NavBar navigation={navigation}/>
-            </MyContext.Provider>
+            </MovieContext.Provider>
         </View>
     )
 }

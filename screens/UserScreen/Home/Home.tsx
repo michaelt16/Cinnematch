@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text, StyleSheet, TextInput } from 'react-nativ
 import { NavigationProp } from '@react-navigation/native';
 import { SvgXml } from 'react-native-svg';
 import NavBar from '../../../components/NavBar';
-import { UserContext } from '../../../utils/MyContext';
+// import { UserContext } from '../../../utils/MyContext';
 
 interface RoomCreationProps{
   route:{
@@ -29,19 +29,13 @@ export default function RoomCreation({route,navigation}: RoomCreationProps ): JS
     console.log('Creating a room');
     navigation.navigate("RoomSettings")
   };
-    console.log("context",user)
+    // console.log("context",user)
   return (
     <View style={styles.container}>
         <View style={styles.topSpace}>
         <Text style={styles.header}>Home</Text>
         </View>
-       <View style={styles.userContainer}>
-        <View style={styles.iconCircle}>
-        <SvgXml xml={route.params.icon} />
-        </View>
-        <Text style={styles.userText}>Hi, {route.params.username}</Text>
-        
-       </View>
+      
 
       <View style={styles.buttonContainer}>
 
@@ -61,9 +55,9 @@ export default function RoomCreation({route,navigation}: RoomCreationProps ): JS
         </TouchableOpacity>
         
       </View>
-      <UserContext.Provider value={user}>
+      
          <NavBar navigation={navigation}/>
-      </UserContext.Provider>
+      
     </View>
   );
 };
@@ -118,7 +112,7 @@ const styles = StyleSheet.create({
   buttonContainer:{ 
     paddingLeft:45,
     paddingTop:40,
-    height:410
+    height:570
   },
   text: {
     color: 'white',

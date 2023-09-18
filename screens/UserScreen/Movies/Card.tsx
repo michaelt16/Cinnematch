@@ -10,7 +10,7 @@ import axios from "axios";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationProp } from '@react-navigation/native';
 import NavBar from "../../../components/NavBar";
-import {MyContext} from "../../../utils/MyContext";
+import {MovieContext} from "../../../utils/MyContext";
 const {width,height} = Dimensions.get("window")
 const φ = (1 + Math.sqrt(5)) / 2;
 const deltaX = width / 2;

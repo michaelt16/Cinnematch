@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image,ScrollView, Dimensions } from 'react-native';
 import NavBar from '../../../components/NavBar';
 import { NavigationProp } from '@react-navigation/native';
-import {MyContext} from '../../../utils/MyContext';
+import {MovieContext} from '../../../utils/MyContext';
 import axios from 'axios';
 import {API_KEY} from "@env"
 import { TouchableOpacity } from 'react-native';
@@ -92,9 +92,9 @@ export default function NowPlaying ({navigation,route}:NowPlayingProps) :JSX.Ele
             })}
 
           </ScrollView>
-            <MyContext.Provider value={favorited}>
+            <MovieContext.Provider value={favorited}>
                     <NavBar navigation={navigation}/>
-            </MyContext.Provider>
+            </MovieContext.Provider>
         </View>
     )
 }

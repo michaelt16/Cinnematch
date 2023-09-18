@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image,ScrollView } from 'react-native';
 import NavBar from '../../../components/NavBar';
 import { NavigationProp } from '@react-navigation/native';
-import {MyContext} from '../../../utils/MyContext';
+import {MovieContext} from '../../../utils/MyContext';
 interface MovieData {
   adult: boolean;
   backdrop_path: string;
@@ -51,9 +51,9 @@ export default function Favorites({ route , navigation }: FavoritesProps): JSX.E
         
       </View>
       </ScrollView>
-      <MyContext.Provider value={favorites}>
+      <MovieContext.Provider value={favorites}>
           <NavBar navigation={navigation}/>
-      </MyContext.Provider>
+      </MovieContext.Provider>
       </View>
   );
 }
