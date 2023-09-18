@@ -18,3 +18,5 @@ Do filters if you only wanna do certaint types of movies or do all genre.
 
 Milestone 7: 
 Implement user feedbacks
+
+![movie matcher draft](https://github.com/michaelt16/MovieMatcher/assets/55267689/bc090912-b81d-4fa1-ac66-e0b5d1adeeb2)
