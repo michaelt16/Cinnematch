@@ -35,8 +35,8 @@ export default function NavBar ({ navigation }: NavBarProps): JSX.Element{
     const favorites = useContext(MovieContext);
     const user = useUser()
     const handleBrowse = ()=>{
-        // navigation.navigate("Card")
-        console.log("test")
+        navigation.navigate("Home")
+        // console.log("test")
     }
 
     const handleFavorites = ()=> {

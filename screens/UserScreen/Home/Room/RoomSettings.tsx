@@ -3,10 +3,10 @@ import { NavigationProp, PreventRemoveContext } from '@react-navigation/native';
 import { View, Text, TextInput, Button, StyleSheet, Dimensions } from 'react-native';
 import CheckBox from 'expo-checkbox';
 import axios from "axios";
-import {API_KEY} from "@env"
+// import {API_KEY} from "@env"
 import { TouchableOpacity } from "react-native";
-import {firestore} from "../../../config/firebase"
-import { useUser } from '../../../utils/MyContext';
+import {firestore} from "../../../../config/firebase"
+import { useUser } from '../../../../utils/MyContext';
 import {collection, getFirestore,addDoc,getDocs, DocumentData, query, orderBy, Timestamp,setDoc} from 'firebase/firestore'
 import { ScrollView } from "react-native-gesture-handler";
 //this is the settings selection screen
@@ -30,33 +30,38 @@ const h = w * φ;
 export default function RoomSettings ({navigation}:RoomSettingsProps) : JSX.Element {
     const [chosenGenreArr, setGenreArr] = useState<number[]>([]);
     const[genresInfo,setGenresInfo]= useState([{name:"",id:0, selected:false}])
-    const [roomInfo, setRoomInfo] = useState({
-      user: useUser().email,
-      genresSelected: chosenGenreArr,
-    })
+    const user = useUser()
+    // const [roomInfo, setRoomInfo] = useState({
+    //   user: useUser().email,
+    //   genresSelected: chosenGenreArr,
+    // })
+
+    // so i wanna have 
     const [roomId,setRoomId]=useState("")
     useEffect(()=>{
       generateRandomRoomNumber(4)
     },[])
 
-    useEffect(() => {
-      if (roomId) {
-        const createRoomCollection = collection(firestore, roomId);
-        const sendRoomInfo = async () =>{
-          try{  
-            const newRoomInfo = {
-              ...roomInfo,
-              genresSelected: chosenGenreArr,
-            };
-            setRoomInfo(newRoomInfo);
-            await addDoc(createRoomCollection,roomInfo)
-          }catch(e){
-            console.log(e)
-          }
-        }
-        sendRoomInfo()
-      }
-    }, [roomId,chosenGenreArr]);
+    // useEffect(() => {
+    //   if (roomId) {
+        
+    //     const sendRoomInfo = async () =>{
+    //       const entryPath = `rooms/${roomId}/roomInfo`
+    //       try{  
+    //         const newRoomInfo = {
+    //           ...roomInfo,
+    //           genresSelected: chosenGenreArr,
+    //         };
+    //         setRoomInfo(newRoomInfo);
+    //         console.log(roomInfo)
+    //         await addDoc(collection(firestore,entryPath),roomInfo)
+    //       }catch(e){
+    //         console.log(e)
+    //       }
+    //     }
+    //     sendRoomInfo()
+    //   }
+    // }, [roomId,chosenGenreArr]);
 
     useEffect(() => {
         axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`)
@@ -85,8 +90,27 @@ export default function RoomSettings ({navigation}:RoomSettingsProps) : JSX.Elem
         });
       };
     
-    const handleProceed = ()=>{
-        console.log("test",chosenGenreArr)
+    const handleProceed = async ()=>{
+        console.log("test",roomId,chosenGenreArr)
+      // console.log(user.uid)
+        const entryPath = `rooms/${roomId}/roomInfo`
+          try{  
+            const roomInfo = {
+              genresSelected: chosenGenreArr,
+              user:[
+                user.uid
+              ]
+            }
+            // const newRoomInfo = {
+            //   ...roomInfo,
+            //   genresSelected: chosenGenreArr,
+            // };
+            // setRoomInfo(newRoomInfo);
+            // console.log(roomInfo)
+            await addDoc(collection(firestore,entryPath),roomInfo)
+          }catch(e){
+            console.log(e)
+          }
         navigation.navigate("Card",{genreId:chosenGenreArr})
     }
 

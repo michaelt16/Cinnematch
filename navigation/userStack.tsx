@@ -13,7 +13,8 @@ import Customize from '../screens/UserScreen/Profile/Customize';
 import NowPlaying from '../screens/UserScreen/Movies/NowPlaying';
 import Profile from '../screens/UserScreen/Profile/Profile';
 import Home from '../screens/UserScreen/Home/Home';
-import RoomSettings from '../screens/UserScreen/Home/RoomSettings';
+import RoomSettings from '../screens/UserScreen/Home/Room/RoomSettings';
+import RoomLobby from '../screens/UserScreen/Home/Room/RoomLobby';
 
 const Stack = createNativeStackNavigator();
 export default function UserStack(): JSX.Element {
@@ -36,19 +37,23 @@ export default function UserStack(): JSX.Element {
            }}>
 
           
-              <Stack.Screen
+              {/* <Stack.Screen
            name="IconPickerScreen"
            component={IconPickerScreen}
-         />
+         /> */}
 
          
-             <Stack.Screen
+          <Stack.Screen
            name="Home"
            component={Home}
          />
          <Stack.Screen
            name="RoomSettings"
            component={RoomSettings}
+         />
+          <Stack.Screen
+           name="RoomLobby"
+           component={RoomLobby}
          />
 
            

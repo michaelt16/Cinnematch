@@ -27,7 +27,7 @@ interface UserInfo{
 const MovieContext = React.createContext<MovieData[]>([]);
 
 // Create a Context with default value undefined
-export const UserContext = React.createContext<any | undefined>(undefined);
+export const UserContext = React.createContext<any|undefined>(undefined);
 
 
 

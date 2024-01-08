@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text, StyleSheet, TextInput } from 'react-nativ
 import { NavigationProp } from '@react-navigation/native';
 import { SvgXml } from 'react-native-svg';
 import NavBar from '../../../components/NavBar';
+import { useUser } from '../../../utils/MyContext';
 // import { UserContext } from '../../../utils/MyContext';
 
 interface RoomCreationProps{
@@ -16,12 +17,14 @@ interface RoomCreationProps{
    
 }
 export default function RoomCreation({route,navigation}: RoomCreationProps ): JSX.Element {
-  const [user,setUser] = useState({ username: route.params.username, icon: route.params.icon });
+  // const [user,setUser] = useState({ username: route.params.username, icon: route.params.icon });
   const [roomNumber, setRoomNumber] = useState("")
-  
+  const user = useUser()
   const handleJoinRoom = () => {
     // Handle logic for joining a room
     console.log('Joining a room');
+    const userId = user.uid
+
   };
 
   const handleCreateRoom = () => {

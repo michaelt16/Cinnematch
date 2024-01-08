@@ -32,10 +32,7 @@ export default function UserStack(): JSX.Element {
            name="Signup"
            component={Signup}
          />     
-               
-             
-            
-          
+
         </Stack.Navigator>
      </NavigationContainer>
 

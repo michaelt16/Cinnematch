@@ -20,7 +20,7 @@ export default  function IconPickerScreen({navigation}: { navigation: Navigation
     console.log('Proceeding with username:', username);
     
     if(username!== ""){
-      navigation.navigate('Home',{username: username,icon:avatar})
+      navigation.navigate('Home')
       
     }
   };

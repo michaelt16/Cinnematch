@@ -186,8 +186,7 @@ export default function Card({navigation,route}: MovieCards): JSX.Element {
         }else{
           translateY.value = withSpring(0,{overshootClamping:true})
         }
-        
-      
+       
       }
     })
    
